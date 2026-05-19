@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Class Photo ASCII – IT Teacher</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400&display=swap');
@@ -45,31 +45,44 @@
     border-top: 2px solid #58a6ff;
   }
   .code-area {
-    display: flex;
-    padding: 20px 0;
-    overflow-x: auto;
-  }
-  .line-numbers {
-    padding: 0 14px;
-    text-align: right;
-    color: #484f58;
-    font-size: 4px;
-    line-height: 1.1;
-    user-select: none;
-    min-width: 40px;
-    font-family: 'Fira Code', monospace;
-    border-right: 1px solid #21262d;
-    margin-right: 12px;
-  }
+  display: flex;
+  padding: 16px 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+
+  /* smooth mobile scrolling */
+  -webkit-overflow-scrolling: touch;
+}
+ .line-numbers {
+  padding: 0 10px;
+  text-align: right;
+  color: #484f58;
+  font-size: clamp(6px, 1vw, 10px);
+  line-height: 1;
+  user-select: none;
+  min-width: 38px;
+  font-family: monospace;
+  border-right: 1px solid #21262d;
+  margin-right: 10px;
+  flex-shrink: 0;
+}
   .line-numbers span { display: block; }
   .ascii-pre {
-    font-size: 4px;
-    line-height: 1.1;
-    font-family: 'Fira Code', monospace;
-    white-space: pre;
-    background: transparent;
-    letter-spacing: 0.15px;
-  }
+  font-size: clamp(6px, 0.85vw, 10px);
+  line-height: 1;
+  font-family: monospace;
+  white-space: pre;
+  letter-spacing: 0.15px;
+  background: transparent;
+
+  /* critical fixes */
+  display: inline-block;
+  min-width: max-content;
+
+  /* sharper rendering */
+  -webkit-font-smoothing: none;
+  text-rendering: geometricPrecision;
+}
   .footer {
     background: #21262d;
     border-top: 1px solid #30363d;
