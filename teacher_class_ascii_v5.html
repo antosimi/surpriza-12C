@@ -29,9 +29,10 @@
             box-shadow: 0 25px 80px rgba(0, 0, 0, 0.6);
             overflow: hidden;
             width: fit-content;
+            transform: scale(0.5);
 
             /* important */
-            transform-origin: top left;
+            transform-origin: top center;
         }
 
         .titlebar {
@@ -119,7 +120,7 @@
 
         @media (max-width: 768px) {
             .window {
-                transform: scale(0.45);
+                transform: scale(0.35);
                 margin-bottom: -55%;
             }
 
