@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Class Photo ASCII – IT Teacher</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400&display=swap');
@@ -13,7 +13,7 @@
     justify-content: center;
     align-items: flex-start;
     min-height: 100vh;
-    padding: 30px 20px;
+    padding: 40px 20px;
   }
   .window {
     background: #161b22;
@@ -52,8 +52,6 @@
     display: flex;
     padding: 20px 0;
     overflow-x: auto;
-    -webkit-overflow-scrolling: touch; /* Makes scrolling smoother on iOS */
-    padding: 20px;
   }
   .line-numbers {
     padding: 0 14px;
@@ -75,8 +73,10 @@
     white-space: pre;
     background: transparent;
     letter-spacing: 0.15px;
-    font-size: 6px; /* 4px is often too small for mobile browsers to render cleanly */
-    display: inline-block;
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+     overflow-x: auto;
+    
   }
   .footer {
     background: #21262d;
@@ -96,14 +96,6 @@
     font-family: 'Fira Code', monospace;
     border-top: 1px solid #30363d;
     background: #0d1117;
-  }
-  @media (max-width: 600px) {
-    body {
-        padding: 10px; /* Reduce padding on small screens */
-    }
-    .ascii-pre {
-        font-size: 5px; /* Fine-tune for tiny screens if needed */
-    }
   }
   .dedication span { color: #58a6ff; }
   .dedication em { color: #3fb950; font-style: normal; }
