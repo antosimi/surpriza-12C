@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Class Map</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700&family=DM+Sans:wght@300;400;500&display=swap');
+
+  :root {
+    --cream: #fdf6ee;
+    --warm: #e8d5c0;
+    --ink: #1a1208;
+    --accent: #c0392b;
+    --label-bg: rgba(26,18,8,0.82);
+    --popup-bg: #1a1208;
+    --popup-text: #fdf6ee;
+    --shadow: 0 4px 24px rgba(0,0,0,0.18);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--cream);
+    font-family: 'DM Sans', sans-serif;
+    color: var(--ink);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  header {
+    width: 100%;
+    padding: 22px 40px 18px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    border-bottom: 1.5px solid var(--warm);
+    background: var(--cream);
+    text-align: center;
+  }
+
+  header h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.7rem;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    color: var(--ink);
+  }
+
+  header h2 {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 300;
+    color: #7a6a58;
+    line-height: 1.7;
+    font-style: italic;
+  }
+
+  .wrapper {
+    position: relative;
+    display: inline-block;
+    margin: 36px auto;
+  }
+
+  .wrapper img {
+    display: block;
+    width: 520px;
+    max-width: 95vw;
+    border-radius: 4px;
+    box-shadow: var(--shadow);
+    user-select: none;
+    pointer-events: none;
+  }
+
+  .student {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    cursor: pointer;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+  }
+
+  .student-label {
+    background: var(--label-bg);
+    color: #fdf6ee;
+    font-family: 'Syne', sans-serif;
+    font-size: 0.5rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    padding: 1px 3px;
+    border-radius: 3px;
+    white-space: nowrap;
+    pointer-events: none;
+    text-align: center;
+    transition: background 0.15s;
+    line-height: 1.4;
+  }
+
+  .student-dot {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    border: 2px solid rgba(255,255,255,0.75);
+    background: rgba(192,57,43,0.22);
+    flex-shrink: 0;
+    transition: background 0.15s, transform 0.15s;
+  }
+
+  .student:hover .student-dot,
+  .student.active .student-dot {
+    background: rgba(192,57,43,0.78);
+    transform: scale(1.25);
+  }
+
+  .student.active .student-label {
+    background: var(--accent);
+  }
+
+  /* Popup */
+  #popup {
+    display: none;
+    position: fixed;
+    z-index: 100;
+    background: var(--popup-bg);
+    color: var(--popup-text);
+    font-family: 'DM Sans', sans-serif;
+    border-radius: 8px;
+    padding: 14px 18px 12px;
+    box-shadow: 0 8px 40px rgba(0,0,0,0.32);
+    min-width: 180px;
+    max-width: 260px;
+    pointer-events: none;
+  }
+
+  #popup .popup-name {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 700;
+    margin-bottom: 6px;
+    color: #f4c97a;
+  }
+
+  #popup .popup-text {
+    font-size: 0.8rem;
+    line-height: 1.6;
+    color: #e8d5c0;
+    font-weight: 300;
+  }
+
+  #popup::after {
+    content: '';
+    position: absolute;
+    bottom: -7px;
+    left: 20px;
+    width: 14px;
+    height: 14px;
+    background: var(--popup-bg);
+    transform: rotate(45deg);
+    border-radius: 2px;
+  }
+
+  footer {
+    margin-top: auto;
+    width: 100%;
+    padding: 28px 40px 32px;
+    border-top: 1.5px solid var(--warm);
+    background: var(--cream);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    text-align: center;
+  }
+
+  footer p {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 300;
+    color: #7a6a58;
+    line-height: 1.8;
+    font-style: italic;
+    max-width: 520px;
+  }
+
+  footer .footer-end {
+    font-family: 'Syne', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--ink);
+    letter-spacing: -0.01em;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Clasa 12 C</h1>
+  <h2>
+    A fost odata ca-n povești<br>
+    A fost ca niciodată<br>
+    Din rude mari împărătești<br>
+    O prea frumoasă clasă!<br>
+    <br>
+    În 2011 ea a venit <br>
+    În localul mult iubit <br>
+    Să facă din mici școlari <br>
+    Adevărați cărturari. <br>
+    <br>  
+    Primii la învățătură <br>
+    Tot pe-acolo la cultură <br>
+    La distracție cu spor <br>
+    Pe al nostru drag ogor. <br>
+
+    Și cum este cel mai bine <br>
+    Vom parcurge cu rușine <br>
+    Catalogul cel frumos <br>
+    12C - ului bengos! <br>
+  </h2>
+</header>
+
+<div class="wrapper" id="classroomWrapper">
+  <img src="clasa_cu_elevi.jpeg" alt="Classroom map" id="classImg" draggable="false">
+
+  <!-- ===== LEFT COLUMN ===== -->
+  <!-- Row 1 -->
+  <div class="student" style="left:16%;top:36%;" data-id="1">
+    <div class="student-label">Teo S.</div><div class="student-dot"></div>
+  </div>
+  <div class="student" style="left:25%;top:36%;" data-id="2">
+    <div class="student-label">Andrei P.</div><div class="student-dot"></div>
+  </div>
+  <!-- Row 2 -->
+  <div class="student" style="left:16%;top:49%;" data-id="3">
+    <div class="student-label">Andrei C.</div><div class="student-dot"></div>
+  </div>
+  <div class="student" style="left:25%;top:49%;" data-id="4">
+    <div class="student-label">Bogdan</div><div class="student-dot"></div>
+  </div>
+  <!-- Row 3 -->
+  <div class="student" style="left:16%;top:62%;" data-id="5">
+    <div class="student-label">Miruna</div><div class="student-dot"></div>
+  </div>
+  <div class="student" style="left:25%;top:62%;" data-id="6">
+    <div class="student-label">Nicoleta</div><div class="student-dot"></div>
+  </div>
+
+  <!-- ===== MIDDLE COLUMN ===== -->
+  <!-- Row 1 -->
+  <div class="student" style="left:42%;top:30%;" data-id="9">
+    <div class="student-label">David</div><div class="student-dot"></div>
+  </div>
+  <div class="student" style="left:51%;top:30%;" data-id="10">
+    <div class="student-label">Sebastian</div><div class="student-dot"></div>
+  </div>
+  <!-- Row 2 -->
+  <div class="student" style="left:42%;top:43%;" data-id="11">
+    <div class="student-label">Andreea</div><div class="student-dot"></div>
+  </div>
+  <div class="student" style="left:51%;top:43%;" data-id="12">
+    <div class="student-label">Bianca</div><div class="student-dot"></div>
+  </div>
+  <!-- Row 3 -->
+  <div class="student" style="left:42%;top:55%;" data-id="13">
+    <div class="student-label">Leonard</div><div class="student-dot"></div>
+  </div>
+  <div class="student" style="left:51%;top:55%;" data-id="14">
+    <div class="student-label">Anghel</div><div class="student-dot"></div>
+  </div>
+  <!-- Row 4 -->
+  <div class="student" style="left:42%;top:67%;" data-id="15">
+    <div class="student-label">Teodora</div><div class="student-dot"></div>
+  </div>
+  <div class="student" style="left:51%;top:67%;" data-id="16">
+    <div class="student-label">Diana</div><div class="student-dot"></div>
+  </div>
+  <!-- Row 5 -->
+  <div class="student" style="left:42%;top:79%;" data-id="17">
+    <div class="student-label">Teo M.</div><div class="student-dot"></div>
+  </div>
+  <div class="student" style="left:51%;top:79%;" data-id="18">
+    <div class="student-label">Antonia</div><div class="student-dot"></div>
+  </div>
+  <!-- Row 6 -->
+  <div class="student" style="left:42%;top:91%;" data-id="27">
+    <div class="student-label">Tudor</div><div class="student-dot"></div>
+  </div>
+  <div class="student" style="left:51%;top:91%;" data-id="28">
+    <div class="student-label">Dragos N.</div><div class="student-dot"></div>
+  </div>
+
+  <!-- ===== RIGHT COLUMN ===== -->
+  <!-- Row 1 -->
+  <div class="student" style="left:71%;top:30%;" data-id="19">
+    <div class="student-label">Marian</div><div class="student-dot"></div>
+  </div>
+  <div class="student" style="left:80%;top:30%;" data-id="20">
+    <div class="student-label">Vlad T.</div><div class="student-dot"></div>
+  </div>
+  <!-- Row 2 -->
+  <div class="student" style="left:71%;top:43%;" data-id="21">
+    <div class="student-label">Stefan</div><div class="student-dot"></div>
+  </div>
+  <div class="student" style="left:80%;top:43%;" data-id="22">
+    <div class="student-label">Vlad O.</div><div class="student-dot"></div>
+  </div>
+  <!-- Row 3 -->
+  <div class="student" style="left:71%;top:55%;" data-id="23">
+    <div class="student-label">Petru</div><div class="student-dot"></div>
+  </div>
+  <div class="student" style="left:80%;top:55%;" data-id="24">
+    <div class="student-label">Dragos D.</div><div class="student-dot"></div>
+  </div>
+  <!-- Row 4 -->
+  <div class="student" style="left:71%;top:67%;" data-id="25">
+    <div class="student-label">Florin</div><div class="student-dot"></div>
+  </div>
+  <div class="student" style="left:80%;top:67%;" data-id="26">
+    <div class="student-label">Moisica</div><div class="student-dot"></div>
+  </div>
+</div>
+
+<!-- Popup -->
+<div id="popup">
+  <div class="popup-name" id="popupName"></div>
+  <div class="popup-text" id="popupText"></div>
+</div>
+
+<footer>
+  <p>
+    Și acum la ceas de preț Am dorit să fiu glumeț Dar vă spun ca sunt cam trist....<br>
+    Am fost 4 ani cu bune Și cu rele și cu glume<br>
+    Și cu 2 și cu-o ședință. Și cu marea mea dorință<br>
+    Să vă fac să înțelegeți Că liceul ce-ați făcut<br>
+    Mare lucru a putut Să vă facă pe toți mari.
+  </p>
+  <p>
+    Și la prima revedere Să veniți cu o avere.
+  </p>
+  <span class="footer-end">La anul și la mulți ani!</span>
+</footer>
+
+<script>
+  const students = {
+     1: { name: "Teodor Suta",          text: "Teo Șuta zis și Dan\nEste veselul din an,\nNe-a distrat pe toți mereu\nCu poante și cu tupeu.\nPus mereu de veselie\nDoctoraș de meserie" },
+     2: { name: "Andrei Prietareanu",   text: "Info about Andrei P. goes here." },
+     3: { name: "Andrei Ceausu",        text: "Andi este de departe\nCel mai rar baiat la carte\nA tot stat el prin Dubai\nCa la info e cobai\nToată lumea il iubește\nPe la mate o vrăjește\nCând el vine cu vaporul\nToate fetele îi duc dorul." },
+     4: { name: "Bogdan Saftii",        text: "Bogdănelul cel mai tare\nBiciclistul din parcare\nPână-la urma a ales\nLa ASE-ul cel măreț." },
+     5: { name: "Miruna Mihaila",       text: "Și Miruna cea mai mare\nȘoferița din parcare\nA făcut și tot făcut\nAfaceri de început.\nȘi la prima revedere\nPatroneasă cu avere." },
+     6: { name: "Nicoleta Tircomnicu",  text: "Nico este cea mai mică\nȘi ea totuși se ridică\nPeste toți colegii ei\nCu un cap plin de idei." },
+     9: { name: "David Broscoteanu",    text: "David a tot căutat\nBrunețică la palat\nDar se pare, va veni\nLa București într-o zi\nDomnișoara mult visată\nDinamovistă toată!" },
+    10: { name: "Sebastian Andrei",     text: "Don Sebiță cel tăcut\nBun la sfat și la putut\nPolițist de clasa este\nCa băiatul din poveste" },
+    11: { name: "Andreea Zarnescu",     text: "Iar Andreea cea micuță,\nArhitectă și drăguță\nA fost cea mai liniștită\nDomnișoară în fustiță." },
+    12: { name: "Bianca Dimbu",         text: "Biencuța cea roșcată\nA venit cu noi odată\nPe traseu ea s-a speriat\nȘi a fost mare păcat,\nCă apoi ea la văzut\nPe Florinul cel tăcut\nȘi nu a mai stat pe gânduri\nȘi la prins la ea în brațe! (asta a fost rima)" },
+    13: { name: "Leonard Cretu",        text: "Leo cel mai fotbalist\nE un mare analist\nInginer va deveni\nPe dinamo va dori\nSă o facă campioană....\nȘi-a băgat fetele-n boală\nCu ținuta lui șucară" },
+    14: { name: "Andrei Anghel",        text: "Anghel este la - nceput\nMusculosul cel făcut\nLiniștit si cumințel\nE un mare inginer!" },
+    15: { name: "Teodora Bratu",        text: "Teodora Bratu știe,\nLa desen e meserie\nPe la toate ea este\nȘefă de promoție!" },
+    16: { name: "Diana Sandu",          text: "Și Diana mult stimată\nHacheriță confirmată\nVa pleca la București\nSă gasescă un ales!" },
+    17: { name: "Theo Mihailescu",      text: "Cine să ne mai strunească\nDacă nu Teo a noastră?\nEa mereu a fost la toate\nPricepută ca pe roate\nTotdeauna am poftit\nSă avem ce am dorit." },
+    18: { name: "Antonia Simionescu",   text: "Jack-ul nostru a tot făcut\nPrietenii pe tăcut.\nAntonica este ea\nPrietena lui Velea?\nNu, ea este a lui Bobi\nSă nu-l supărăm pe Robi\nCare Robi? Din Fierbinți\nCel mai tare la părinți." },
+    19: { name: "Marian Pestritu",      text: "Și Marin este pe val\nE deja parlamentar\nE mai mic și mai glumeț\nPe la coadă tot mai des\nVa veni și ziua lui\nZiua bacalaureatului!" },
+    20: { name: "Vlad Turturica",       text: "Un bărbat mai mititel\nVlad pe nume este el\nTotdeauna a sărit...\nLa Marin în ajutor....\nIar la-a noastră simulare\nMarinică cel mai tare\nLa-ntrecut pe la notare." },
+    21: { name: "Stefan Bratescu",      text: "Fane e mai dificil\nCă e îndragostit puțin\nBăiat bun și istețel\nTot un mare inginer!" },
+    22: { name: "Vlad Olteanu",         text: "Șeful nostru cel suprem\nVlad Olteanu este el\nInformatica îi este\nDoar amanta din poveste.\nȘi va ține tot mereu\nCatalogul cel mai greu." },
+    23: { name: "Petru Iordache",       text: "Italianul cel frumos\nEste Petru cel voios\nDupă multă chibzuință\nA ales-o cu credință\nPe Iuliana cea frumoasă\nPentru viața lui haioasă." },
+    24: { name: "Dragos Dureci",        text: "Frumușel și iubăreț\nDragoș e cam plimbăreț\nDoctor sau e inginer...\nImportant este ca poate\nSă le facă chiar pe toate." },
+    25: { name: "Florin",               text: "Primul șef de clasă-a fost\nFlorinel cel frumos,\nPe Bianca a cucerit\nȘi este nedumerit\nCum să facă să o ceară\nPe Bianca soțioară!" },
+    26: { name: "Moisica",              text: "Când Moisică a venit\nEl Dinicu a cucerit.\nA învățat mai pe la toate\nA fumat și mai prin spate." },
+    27: { name: "Tudor Mihai",          text: "Tudorelul nostru este\nDomnul doctor din poveste\nElegant și plin de șarm\nTotdeauna foarte calm." },
+    28: { name: "Dragos Neacsu",        text: "Dragoșelul mult voios\nCântărețul cel faimos\nVa cânta și va dansa\nȘi cu Teo el va sta." },
+  };
+
+  const popup    = document.getElementById('popup');
+  const popupName = document.getElementById('popupName');
+  const popupText = document.getElementById('popupText');
+  let activeStudent = null;
+
+  document.querySelectorAll('.student').forEach(el => {
+    el.addEventListener('click', function(e) {
+      e.stopPropagation();
+      const id   = parseInt(this.dataset.id);
+      const data = students[id];
+
+      if (activeStudent && activeStudent !== this) activeStudent.classList.remove('active');
+
+      if (activeStudent === this) {
+        this.classList.remove('active');
+        popup.style.display = 'none';
+        activeStudent = null;
+        return;
+      }
+
+      this.classList.add('active');
+      activeStudent = this;
+
+      const rect = this.getBoundingClientRect();
+      popupName.textContent = data.name;
+      // Render \n as line breaks
+      popupText.innerHTML = data.text.replace(/\n/g, '<br>');
+      popup.style.display = 'block';
+
+      const pw = popup.offsetWidth;
+      const ph = popup.offsetHeight;
+      let left = rect.left + rect.width / 2 - pw / 2;
+      left = Math.max(8, Math.min(left, window.innerWidth - pw - 8));
+      let top = rect.top - ph - 14;
+      if (top < 8) top = rect.bottom + 10;
+
+      popup.style.left = left + 'px';
+      popup.style.top  = top  + 'px';
+    });
+  });
+
+  document.addEventListener('click', () => {
+    if (activeStudent) { activeStudent.classList.remove('active'); activeStudent = null; }
+    popup.style.display = 'none';
+  });
+</script>
+</body>
+</html>
