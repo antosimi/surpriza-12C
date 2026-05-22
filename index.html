@@ -33,6 +33,7 @@
         .btn-secondary { background-color: #1f6feb; }
         .btn-control { background-color: #6e7681; font-family: monospace; }
         .btn-image { background-color: #8957e5; }
+        .btn-class-map { background-color: #e8ae27; }
 
         /* Meniul pentru imagini */
         #image-menu-screen { display: none; margin-top: 50px; }
@@ -107,11 +108,12 @@
 <body>
 
     <div id="intro-screen">
-        <h1>Bună ziua stimabil domn diriginte.</h1>
+        <h1>Bună ziua Stimabil Domn Diriginte.</h1>
         <p>Clasa 12 C v-a pregătit o mică surpriză cu ocazia revederii de 10 ani de la terminarea liceului.<br><br><strong>(Promoția 2012-2016)</strong></p>
         
         <button class="btn" onclick="setupSimulationData()">Play a game</button>
         <button class="btn btn-image" onclick="showImageMenu()">Arată imaginile</button>
+        <button class="btn btn-class-map" onclick="window.location.href='classroom.html'">Harta clasei</button>
     </div>
 
     <div id="image-menu-screen">
